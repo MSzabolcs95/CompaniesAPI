@@ -61,6 +61,25 @@ namespace CompaniesAPI.API.Controllers
             }
         }
 
+        // Retrieve a company by ISIN
+        [HttpGet("isin/{isin}")]
+        public async Task<IActionResult> GetByIsin(string isin)
+        {
+            try
+            {
+                var company = await _mediator.Send(new GetCompanyByIsinQuery(isin));
+
+                if (company == null)
+                    return NotFound(new { message = "Company not found" });
+
+                return Ok(company);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
         // Retrieve all companies
         [HttpGet]
         public async Task<IActionResult> GetAll()

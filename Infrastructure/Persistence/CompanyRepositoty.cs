@@ -33,5 +33,10 @@ namespace CompaniesAPI.Infrastructure.Persistence
             _context.Companies.Update(company);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Company?> GetByIsinAsync(string isin)
+        {
+            return await _context.Companies.FirstOrDefaultAsync(e => e.Isin == isin);
+        }
     }
 }
